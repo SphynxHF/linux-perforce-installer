@@ -1,23 +1,84 @@
-# About
+# Perforce Server Installer (Ubuntu 64-bit)
 
-This script will install Perforce Server 2015.1 on a 64-bit linux host. It has only been tested on Ubuntu so far. If you are looking for an Ubuntu host, I recommend the $20/month tier at [DigitalOcean](https://www.digitalocean.com/?refcode=070b959bc226).
+This script installs **Perforce Server 2015.1** on a 64-bit Linux host.  
+It has been tested on **Ubuntu-based** systems.
 
-# Usage
+If you need a host, I recommend the $20/month tier at [DigitalOcean](https://www.digitalocean.com/?refcode=070b959bc226).
 
-In shell, run the following commands in your terminal. You don't need to download this repo, that is what the first line in the following code does.
+---
 
-```shell
+## 🚀 Usage
+
+Open a terminal on your Ubuntu server and run:
+
+```bash
 wget https://raw.githubusercontent.com/Allar/linux-perforce-installer/master/install-perforce
 chmod +x install-perforce
-sudo ./install-perforce
+./install-perforce
 ```
 
-You will be asked to create a password and user details for a new unprivileged system user named `perforce`. You generally will never need to ever log into your server with this user, but I still suggest a password you won't lose. This is *not* a Perforce user, this is a Linux/Ubuntu user for the server only. You will create your Perforce user when you connect for the first time.
+> ✅ No need to clone the repository — the script handles everything.
 
-Afterwards, the server will restart and you should then be able to connect to your Perforce server.
+### During installation:
+- A new **Linux system user** named `perforce` will be created.
+- You'll be prompted to set a password for this user.
+- This is **not** a Perforce account — it is only used to run the server process.
 
-# Security
+Once complete, reboot manually to ensure everything loads properly.
 
-The created server will have default Perforce installation settings. This means anyone who connects to your server can create a user account without authorization. After you create your first user, you should close this security hole by using the following `p4` command from your Perforce Client.
+---
 
-        p4 configure set dm.user.noautocreate=2
+## 🔐 Security
+
+By default, Perforce allows anyone to connect and create user accounts.  
+To disable this and require manual account creation:
+
+```bash
+p4 configure set dm.user.noautocreate=2
+```
+
+This must be run **after** creating your first user with admin privileges.
+
+---
+
+## 📁 File Structure
+
+- Depot files: `/perforce_depot`
+- Logs: `/var/log/perforce`
+- Binary location: `/usr/local/bin/p4d`
+- Init script: `/etc/init.d/p4dservice`
+
+---
+
+## ⚙️ System Details
+
+- The script installs `daemon` (if not already present).
+- The Perforce server runs as a service via an `init.d` script.
+- Compatible with Ubuntu 18.04–22.04.  
+  For modern `systemd` support, open an issue or request a conversion.
+
+---
+
+## 🧰 Troubleshooting
+
+- Check logs: `/var/log/perforce/`
+- Is `p4d` running? Run:  
+  ```bash
+  ps aux | grep p4d
+  ```
+- Manually start service if needed:  
+  ```bash
+  sudo service p4dservice start
+  ```
+
+---
+
+## 🛠 Contributing
+
+PRs welcome to improve version targeting, Systemd compatibility, or UX!
+
+---
+
+## 📜 License
+
+MIT — feel free to use and modify.
