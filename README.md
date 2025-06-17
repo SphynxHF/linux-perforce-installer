@@ -12,7 +12,7 @@ If you need a host, I recommend the $20/month tier at [DigitalOcean](https://www
 Open a terminal on your Ubuntu server and run:
 
 ```bash
-wget https://raw.githubusercontent.com/Allar/linux-perforce-installer/master/install-perforce
+wget https://github.com/SphynxHF/linux-perforce-installer/blob/master/install-perforce
 chmod +x install-perforce
 ./install-perforce
 ```
